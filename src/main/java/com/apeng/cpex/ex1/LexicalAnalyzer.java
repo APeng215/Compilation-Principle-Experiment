@@ -1,7 +1,5 @@
 package com.apeng.cpex.ex1;
 
-import com.apeng.cpex.util.FileHelper;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class LexicalAnalysis {
+public class LexicalAnalyzer {
     public static String rwtab = String.join("|", "main", "if", "then", "while", "do", "static", "int",
             "double", "struct", "break", "else", "long", "switch",
             "case", "typedef", "char", "return", "const", "float",
@@ -68,7 +66,7 @@ public class LexicalAnalysis {
     public static String excludeIdNum = "struct|<=|<>|:=|const|for|main|do|while|float|long|switch|default|else|continue|if|case|static|void|#|break|sizeof|double|\\(|\\)|\\*|then|\\+|-|typedef|int|/|char|short|:|;|<|=|>|return|>=";
 
     private String rawString;
-    public LexicalAnalysis(String rawString) {
+    public LexicalAnalyzer(String rawString) {
         this.rawString = rawString;
     }
     public String analyze() {

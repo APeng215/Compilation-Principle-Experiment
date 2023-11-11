@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="41311484-4f1a-44ac-a306-fc57e98c095e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/ex1/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/ex2/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/ex3/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/util/AnalysisResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/util/FileHelper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/util/NoSuchPriorityException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/util/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/apeng/cpex/util/PriorityTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/file.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/file2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/file3.txt" afterDir="false" />
-    </list>
+    <list default="true" id="41311484-4f1a-44ac-a306-fc57e98c095e" name="Changes" comment="Initial commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -160,10 +142,22 @@
       <workItem from="1699539115828" duration="66000" />
       <workItem from="1699539197904" duration="3000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit">
+      <created>1699707562855</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1699707562855</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

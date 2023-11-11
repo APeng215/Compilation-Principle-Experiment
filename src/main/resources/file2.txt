@@ -1,0 +1,9 @@
+E
+E T A F B
++ * ( ) i ε
+E->TA
+A->+TA|ε
+T->FB
+B->*FB|ε
+F->(E)|i
+(i+i)#

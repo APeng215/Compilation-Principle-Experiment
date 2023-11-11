@@ -15,7 +15,7 @@ public class LLAnalyzer {
     private static final HashMap<String, Set<String>> followSetMap = new HashMap<>();
     private static final HashMap<String, HashMap<String, ArrayList<String>>> analyzingTable = new HashMap<>();
     private String sentence;
-    private String content;
+    private final String content;
     private final AnalysisResult analysisResult = new AnalysisResult();
     public LLAnalyzer(String input) {
         this.content = input;

@@ -18,15 +18,23 @@ public class OperatorFirstAnalyzer {
     private HashMap<String, List<String>> firstvtSets;
     private HashMap<String, List<String>> lastvtSets;
     private boolean[][] F;
+
     private PriorityTable priorityTable;
     private String content;
+
     private String analysisResult;
     public OperatorFirstAnalyzer(String content) {
         this.content = content;
     }
+    public String getAnalysisResult() {
+        return analysisResult;
+    }
 
+    public PriorityTable getPriorityTable() {
+        return priorityTable;
+    }
 
-    private void analyze() throws Exception {
+    public void analyze() throws Exception {
         generateDataStructure(content);
         initFirstSetsAndLastSets();
         generateFirstvtSets();

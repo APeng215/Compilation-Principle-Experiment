@@ -10,6 +10,9 @@ public class PriorityTable {
         table = new String[terSymbols.size()][terSymbols.size()];
         this.terSymbols = terSymbols;
     }
+    public void print() {
+        System.out.print(this);
+    }
     public void set(String row, String column, String value) {
         table[terSymbols.indexOf(row)][terSymbols.indexOf(column)] = value;
     }

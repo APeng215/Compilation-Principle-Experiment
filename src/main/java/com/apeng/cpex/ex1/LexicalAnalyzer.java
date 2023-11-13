@@ -8,12 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LexicalAnalyzer {
-    public static String rwtab = String.join("|", "main", "if", "then", "while", "do", "static", "int",
+    public String rwtab = String.join("|", "main", "if", "then", "while", "do", "static", "int",
             "double", "struct", "break", "else", "long", "switch",
             "case", "typedef", "char", "return", "const", "float",
             "short", "continue", "for", "void", "default",
             "sizeof", "do");
-    public static Map<String, Integer> key2Code = new HashMap<>() {{
+    public Map<String, Integer> key2Code = new HashMap<>() {{
         put("main", 1);
         put("if", 2);
         put("then", 3);
@@ -58,12 +58,12 @@ public class LexicalAnalyzer {
         put("sizeof", 24);
         put("#", 0);
     }};
-    public static String keywordsRegex = "main|if|then|while|do|static|int|double|struct|break|else|long|switch|case|typedef|char|return|const|float|short|continue|for|void|default|sizeof";
-    public static String symbolRegex = "\\+|-|\\*|/|:|:=|<|<>|<=|>|>=|=|;|\\(|\\)|#";
-    public static String IDRegex = "[a-zA-Z]\\w*";
-    public static String NUMRegex = "\\d+";
+    public String keywordsRegex = "main|if|then|while|do|static|int|double|struct|break|else|long|switch|case|typedef|char|return|const|float|short|continue|for|void|default|sizeof";
+    public String symbolRegex = "\\+|-|\\*|/|:|:=|<|<>|<=|>|>=|=|;|\\(|\\)|#";
+    public String IDRegex = "[a-zA-Z]\\w*";
+    public String NUMRegex = "\\d+";
 
-    public static String excludeIdNum = "struct|<=|<>|:=|const|for|main|do|while|float|long|switch|default|else|continue|if|case|static|void|#|break|sizeof|double|\\(|\\)|\\*|then|\\+|-|typedef|int|/|char|short|:|;|<|=|>|return|>=";
+    public String excludeIdNum = "struct|<=|<>|:=|const|for|main|do|while|float|long|switch|default|else|continue|if|case|static|void|#|break|sizeof|double|\\(|\\)|\\*|then|\\+|-|typedef|int|/|char|short|:|;|<|=|>|return|>=";
 
     private String result;
     private String rawString;
@@ -97,7 +97,7 @@ public class LexicalAnalyzer {
     }
 
 
-    static String preProcess(String input) {
+    String preProcess(String input) {
         return input
                 .replaceAll("//.*\r\n", "")
                 .replaceAll("[\n\r\t]", " ")
@@ -105,19 +105,19 @@ public class LexicalAnalyzer {
 
     }
 
-    static boolean isKeywords(String input) {
+    boolean isKeywords(String input) {
         return input.matches(keywordsRegex);
     }
 
-    static boolean isSymbol(String input) {
+    boolean isSymbol(String input) {
         return input.matches(symbolRegex);
     }
 
-    static boolean isID(String input) {
+    boolean isID(String input) {
         return input.matches(IDRegex);
     }
 
-    static boolean isNUM(String input) {
+    boolean isNUM(String input) {
         return input.matches(NUMRegex);
     }
 }

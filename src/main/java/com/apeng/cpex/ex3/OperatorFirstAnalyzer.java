@@ -16,12 +16,45 @@ public class OperatorFirstAnalyzer {
     private final HashMap<String, Set<String>> formulaSetMap = new HashMap<>(); //产生式
     private String sentence; // 待分析句型
     private HashMap<String, List<String>> firstvtSets;
+
+    public String getStartSymbol() {
+        return startSymbol;
+    }
+
+
+    public List<String> getTerSymbolList() {
+        return terSymbolList;
+    }
+
+    public List<String> getNonTerSymbolList() {
+        return nonTerSymbolList;
+    }
+
+    public HashMap<String, Set<String>> getFormulaSetMap() {
+        return formulaSetMap;
+    }
+
+    public String getSentence() {
+        return sentence;
+    }
+
+    public HashMap<String, List<String>> getFirstvtSets() {
+        return firstvtSets;
+    }
+
+    public HashMap<String, List<String>> getLastvtSets() {
+        return lastvtSets;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
     private HashMap<String, List<String>> lastvtSets;
     private boolean[][] F;
 
     private PriorityTable priorityTable;
     private String content;
-
     private String analysisResult;
     public OperatorFirstAnalyzer(String content) {
         this.content = content;

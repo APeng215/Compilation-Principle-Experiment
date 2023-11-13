@@ -21,6 +21,7 @@ public class Main {
         }
         analyzer.getPriorityTable().print();
         System.out.print(analyzer.getAnalysisResult());
+        System.out.print(analyzer.getFirstvtSets());
     }
 
 

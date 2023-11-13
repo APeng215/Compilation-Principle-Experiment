@@ -8,18 +8,28 @@ public class LLAnalyzer {
     private static Set<String> terSymbolSet; // 终结符
     private static Set<String> nonTerSymbolSet; // 非终结符
     private static final HashMap<String, Set<String>> formulaSetMap = new HashMap<>(); //产生式
-    private static final HashMap<String, Set<String>> firstSetMap = new HashMap<>();
-    private static final HashMap<String, Set<String>> followSetMap = new HashMap<>();
+    private static final HashMap<String, Set<String>> firstSetMap = new HashMap<>();// FIRST集
+    private static final HashMap<String, Set<String>> followSetMap = new HashMap<>();// FOLLOW集
     private static final HashMap<String, HashMap<String, ArrayList<String>>> analyzingTable = new HashMap<>();
     private String sentence;
     private final String content;
     private final AnalysisResult analysisResult = new AnalysisResult();
-    public LLAnalyzer(String input) {
-        this.content = input;
-    }
+
 
     public AnalysisResult getAnalysisResult() {
         return analysisResult;
+    }
+    public String getPlaneFirstSets() {
+        StringBuilder builder = new StringBuilder().append("FIRST SETS:\n");
+        for (Map.Entry<String, Set<String>> entry : firstSetMap.entrySet()) {
+            builder.append(entry.getKey()).append(": ");
+            builder.append(entry.getValue()).append("\n");
+        }
+        return builder.toString();
+    }
+
+    public LLAnalyzer(String input) {
+        this.content = input;
     }
     public void analyze() {
         generateDataStructure(content);

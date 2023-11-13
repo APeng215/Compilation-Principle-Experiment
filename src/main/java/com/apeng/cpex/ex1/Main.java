@@ -5,6 +5,8 @@ import com.apeng.cpex.util.FileHelper;
 public class Main {
     public static void main(String[] args) {
         String rawString = FileHelper.getFileContentFromResource("file.txt");
-        System.out.print(new LexicalAnalyzer(rawString).analyze());
+        LexicalAnalyzer analyzer = new LexicalAnalyzer(rawString);
+        analyzer.analyze();
+        System.out.print(analyzer.getResult());
     }
 }

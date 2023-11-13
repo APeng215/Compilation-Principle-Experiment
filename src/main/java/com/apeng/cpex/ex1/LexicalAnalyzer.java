@@ -65,11 +65,16 @@ public class LexicalAnalyzer {
 
     public static String excludeIdNum = "struct|<=|<>|:=|const|for|main|do|while|float|long|switch|default|else|continue|if|case|static|void|#|break|sizeof|double|\\(|\\)|\\*|then|\\+|-|typedef|int|/|char|short|:|;|<|=|>|return|>=";
 
+    private String result;
     private String rawString;
     public LexicalAnalyzer(String rawString) {
         this.rawString = rawString;
     }
-    public String analyze() {
+
+    public String getResult() {
+        return result;
+    }
+    public void analyze() {
         assert rawString != null;
         String preProcessedString = preProcess(rawString);
         Matcher matcher = Pattern.compile(keywordsRegex + "|" + symbolRegex + "|" + IDRegex + "|" + NUMRegex).matcher(preProcessedString);
@@ -87,8 +92,7 @@ public class LexicalAnalyzer {
                 builder.append(String.format("< %s : %d >\n", str, key2Code.get("ID")));
             }
         }
-        return builder.toString();
-
+        result = builder.toString();
 
     }
 

@@ -1,4 +1,6 @@
-package com.apeng.cpex.util;
+package com.apeng.cpex.ex3;
+
+import com.apeng.cpex.util.NoSuchPriorityException;
 
 import java.sql.Struct;
 import java.util.List;

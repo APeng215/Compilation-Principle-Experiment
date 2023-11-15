@@ -1,5 +1,7 @@
 package com.apeng.cpex.ex4;
 
+import com.apeng.cpex.util.Pair;
+
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,15 +14,104 @@ public class LRAnalyzer {
     private final Map<String, Set<String>> formulaSets = new HashMap<>(); //产生式
     private String sentence; // 待分析语句
     private final String rowString; // 输入
-
     private List<List<Project>> C; // 项目集规范族
+
+
+
+    private LRAnalysisTable analysisTable; // LR 分析表
+    private AnalysisProcess analysisProcess;
+    private boolean analysisSucceed = false;
     public LRAnalyzer(String rowString) {
         this.rowString = rowString;
         this.generateDataStructure();
         this.generateC();
-        // TEST
-        System.out.println(GO(Arrays.asList(new Project("W", "E", 0), new Project("E", "aA", 0), new Project("E", "bB", 0)), "a"));
+        this.generateAnalysisTable();
+        this.analyze();
     }
+    public LRAnalysisTable getAnalysisTable() {
+        return analysisTable;
+    }
+
+    public AnalysisProcess getAnalysisProcess() {
+        return analysisProcess;
+    }
+    public boolean isAnalysisSucceed() {
+        return analysisSucceed;
+    }
+
+    private void analyze() {
+        analysisProcess = new AnalysisProcess();
+        Stack<Integer> stateStack = new Stack<>();
+        stateStack.add(0);
+        Stack<String> symbolStack = new Stack<>();
+        symbolStack.add("#");
+        int index = 0;
+        while (index != sentence.length()) {
+            String a = sentence.substring(index, index + 1);
+            String operator = analysisTable.getAction(stateStack.peek(), a).first();
+            Integer state = analysisTable.getAction(stateStack.peek(), a).second();
+            if(operator.equals("s")) { // (1)
+                analysisProcess.addStep(stateStack, symbolStack, sentence.substring(index), operator + state);
+                stateStack.add(state);
+                symbolStack.add(a);
+                index++;
+            } else if (operator.equals("r")) { // (2)
+                analysisProcess.addStep(stateStack, symbolStack, sentence.substring(index), operator + state);
+                int formulaIndex = state;
+                Pair<String, String> formula2Use = analysisTable.getFormulas().get(formulaIndex);
+                int lengthOfRights = formula2Use.second().length();
+
+                for (int i = 0; i < lengthOfRights; i++) {
+                    stateStack.pop();
+                    symbolStack.pop();
+                }
+                symbolStack.add(formula2Use.first());
+                stateStack.add(analysisTable.getGo2(stateStack.peek(), symbolStack.peek()));
+            } else if (operator.equals("acc")) { // (3)
+                analysisProcess.addStep(stateStack, symbolStack, sentence.substring(index), "acc");
+                analysisSucceed = true;
+                break;
+            } else {
+                throw new RuntimeException("LR analysis fails: The sentence analyzed is unfit to the formulas");
+            }
+        }
+
+    }
+
+    private void generateAnalysisTable() {
+        analysisTable = new LRAnalysisTable(C, terSymbolSet, nonTerSymbolSet, formulaSets);
+        for (int k = 0; k < C.size(); k++) {
+            List<Project> Ik = C.get(k);
+            for (Project project : Ik) {
+                // (3)
+                if (project.getLeft().equals("W") && !project.hasNextSymbol()) {
+                    analysisTable.setAction(k, "#", "acc", -1);
+                    continue;
+                }
+                // (1)
+                if (project.hasNextSymbol() && !project.hasNonSymbolAfterDot(nonTerSymbolSet) && C.contains(GO(Ik, project.getNextSymbol()))) {
+                    int j = C.indexOf(GO(Ik, project.getNextSymbol()));
+                    analysisTable.setAction(k, project.getNextSymbol(), "s", j);
+                }
+                // (2)
+                if (!project.hasNextSymbol()) {
+                    for (String a : analysisTable.getTerSymbols()) {
+                        analysisTable.setAction(k, a, "r", analysisTable.getFormulas().indexOf(new Pair<>(project.getLeft(), project.getRights())));
+                    }
+                }
+                // (4)
+                for (String A : nonTerSymbolSet) {
+                    if (C.contains(GO(Ik, A))) {
+                        int j = C.indexOf(GO(Ik, A));
+                        analysisTable.setGo2(k, A, j);
+                    }
+                }
+
+
+            }
+        }
+    }
+
     private void generateC() {
         C = new ArrayList<>();
         C.add(CLOSURE(List.of(new Project(startSymbol, originalStartSymbol, 0))));
@@ -47,8 +138,6 @@ public class LRAnalyzer {
             J.add(project.ofNextPosition());
         });
         return CLOSURE(J);
-
-
     }
     private List<Project> CLOSURE(List<Project> projects) {
         ArrayList<Project> resultProjects = new ArrayList<>();

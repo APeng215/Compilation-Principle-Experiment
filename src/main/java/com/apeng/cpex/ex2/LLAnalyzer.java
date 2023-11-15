@@ -30,8 +30,9 @@ public class LLAnalyzer {
 
     public LLAnalyzer(String input) {
         this.content = input;
+        analyze();
     }
-    public void analyze() {
+    private void analyze() {
         generateDataStructure(content);
         generateFirstSetMap();
         generateFollowSetMap();

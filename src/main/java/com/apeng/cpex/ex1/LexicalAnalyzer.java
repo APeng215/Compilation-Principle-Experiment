@@ -69,12 +69,13 @@ public class LexicalAnalyzer {
     private String rawString;
     public LexicalAnalyzer(String rawString) {
         this.rawString = rawString;
+        analyze();
     }
 
     public String getResult() {
         return result;
     }
-    public void analyze() {
+    private void analyze() {
         assert rawString != null;
         String preProcessedString = preProcess(rawString);
         Matcher matcher = Pattern.compile(keywordsRegex + "|" + symbolRegex + "|" + IDRegex + "|" + NUMRegex).matcher(preProcessedString);

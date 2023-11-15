@@ -54,8 +54,9 @@ public class OperatorFirstAnalyzer {
     private PriorityTable priorityTable;
     private String content;
     private String analysisResult;
-    public OperatorFirstAnalyzer(String content) {
+    public OperatorFirstAnalyzer(String content) throws Exception {
         this.content = content;
+        analyze();
     }
     public String getAnalysisResult() {
         return analysisResult;
@@ -65,7 +66,7 @@ public class OperatorFirstAnalyzer {
         return priorityTable;
     }
 
-    public void analyze() throws Exception {
+    private void analyze() throws Exception {
         generateDataStructure(content);
         initFirstSetsAndLastSets();
         generateFirstvtSets();

@@ -43,10 +43,13 @@ public class Project {
 
     @Override
     public String toString() {
-        return "Project{" +
-                "formula=" + formula +
-                ", dotPosition=" + dotPosition +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append(getLeft()).append("->");
+        for (int i = 0; i < getRights().length(); i++) {
+            if (i == dotPosition) builder.append("•");
+            builder.append(getRights().charAt(i));
+        }
+        return builder.toString().trim();
     }
 
     @Override

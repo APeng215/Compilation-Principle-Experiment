@@ -54,10 +54,33 @@ public class OperatorFirstAnalyzer {
     private PriorityTable priorityTable;
     private String content;
     private String analysisResult;
+
+
+
     private boolean sentenceCorrect = true;
     public OperatorFirstAnalyzer(String content) throws Exception {
         this.content = content;
         analyze();
+    }
+    public boolean isSentenceCorrect() {
+        return sentenceCorrect;
+    }
+    public String getPriorityTableStr() {
+        return priorityTable.toString();
+    }
+    public String getFirstvtSetStr() {
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, List<String>> entry : firstvtSets.entrySet()) {
+            builder.append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+        }
+        return builder.toString().trim();
+    }
+    public String getLastvtSetStr() {
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, List<String>> entry : lastvtSets.entrySet()) {
+            builder.append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+        }
+        return builder.toString().trim();
     }
     public String getAnalysisResult() {
         return analysisResult;
@@ -131,9 +154,6 @@ public class OperatorFirstAnalyzer {
         builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
         builder.append(String.format("%20s\n", sentenceIndex == sentence.length() ? "" : sentence.substring(sentenceIndex)));
         sentence = temp;
-        if (sentenceCorrect) {
-            builder.append(String.format("Sentence \"%s\" is valid for the formula\n", sentence));
-        }
         analysisResult = builder.toString().trim();
     }
 

@@ -31,6 +31,14 @@ public class LRAnalyzer {
     public LRAnalysisTable getAnalysisTable() {
         return analysisTable;
     }
+    public String getCStr() {
+        StringBuilder builder = new StringBuilder();
+        for (List<Project> list : C) {
+            builder.append(list).append("\n");
+        }
+        return builder.toString().trim();
+    }
+
 
     public AnalysisProcess getAnalysisProcess() {
         return analysisProcess;

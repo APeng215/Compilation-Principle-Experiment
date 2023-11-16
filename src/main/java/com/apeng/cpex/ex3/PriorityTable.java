@@ -50,6 +50,6 @@ public class PriorityTable {
             }
             stringBuilder.append("\n");
         }
-        return stringBuilder.toString();
+        return stringBuilder.toString().trim();
     }
 }

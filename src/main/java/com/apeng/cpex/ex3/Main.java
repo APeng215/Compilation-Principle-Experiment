@@ -9,9 +9,12 @@ public class Main {
         String content = FileHelper.getFileContentFromResource("file3.txt");
         try {
             OperatorFirstAnalyzer analyzer = new OperatorFirstAnalyzer(content);
-            analyzer.getPriorityTable().print();
+
+            System.out.println(analyzer.isSentenceCorrect());
+            System.out.println(analyzer.getFirstvtSetStr());
+            System.out.println(analyzer.getLastvtSetStr());
+            System.out.println(analyzer.getPriorityTableStr());
             System.out.println(analyzer.getAnalysisResult());
-            System.out.println(analyzer.getFirstvtSets());
         } catch (Exception e) {
             e.printStackTrace();
         }

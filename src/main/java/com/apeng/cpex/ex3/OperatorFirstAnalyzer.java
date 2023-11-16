@@ -54,6 +54,7 @@ public class OperatorFirstAnalyzer {
     private PriorityTable priorityTable;
     private String content;
     private String analysisResult;
+    private boolean sentenceCorrect = true;
     public OperatorFirstAnalyzer(String content) throws Exception {
         this.content = content;
         analyze();
@@ -94,21 +95,29 @@ public class OperatorFirstAnalyzer {
             builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
             builder.append(String.format("%20s\n", sentence.substring(sentenceIndex)));
             a = String.valueOf(sentence.charAt(sentenceIndex++));
-
+            // j 为已分析栈中位置最靠后的终结符位置
             if (terSymbolList.contains(S.get(k))) {
                 j = k;
             } else {
                 j = k - 1;
             }
+            // 已分析栈终结符优先级更大，规约
             while (priorityTable.get(S.get(j), a).equals(">")) {
                 do {
+                    // Q 为记忆的分析栈中的最后终结符
                     Q = S.get(j);
                     if (terSymbolList.contains(S.get(j - 1))) {
                         j--;
+                        if (j <= 0) {
+                            sentenceCorrect = false;
+                        }
                     } else {
                         j = j - 2;
                     }
                 } while (!priorityTable.get(S.get(j), Q).equals("<"));
+                for (int i = j + 1; i < k + 1; i++) {
+                    S.set(i, "");
+                }
                 k = j + 1;
                 S.set(k, "N");
             }
@@ -119,9 +128,13 @@ public class OperatorFirstAnalyzer {
                 throw new Exception(String.format("Invalid sentence: \"%s\"", sentence));
             }
         } while (!a.equals("#"));
+        builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
+        builder.append(String.format("%20s\n", sentenceIndex == sentence.length() ? "" : sentence.substring(sentenceIndex)));
         sentence = temp;
-        builder.append(String.format("Sentence \"%s\" is valid for the formula\n", sentence));
-        analysisResult = builder.toString();
+        if (sentenceCorrect) {
+            builder.append(String.format("Sentence \"%s\" is valid for the formula\n", sentence));
+        }
+        analysisResult = builder.toString().trim();
     }
 
     private void generatePriorityTable() {

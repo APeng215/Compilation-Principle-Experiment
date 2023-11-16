@@ -10,8 +10,8 @@ public class Main {
         try {
             OperatorFirstAnalyzer analyzer = new OperatorFirstAnalyzer(content);
             analyzer.getPriorityTable().print();
-            System.out.print(analyzer.getAnalysisResult());
-            System.out.print(analyzer.getFirstvtSets());
+            System.out.println(analyzer.getAnalysisResult());
+            System.out.println(analyzer.getFirstvtSets());
         } catch (Exception e) {
             e.printStackTrace();
         }

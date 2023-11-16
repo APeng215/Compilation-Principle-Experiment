@@ -13,7 +13,10 @@ public class LexicalAnalyzer {
             "case", "typedef", "char", "return", "const", "float",
             "short", "continue", "for", "void", "default",
             "sizeof", "do");
-    public Map<String, Integer> key2Code = new HashMap<>() {{
+
+
+
+    private Map<String, Integer> key2Code = new HashMap<>() {{
         put("main", 1);
         put("if", 2);
         put("then", 3);
@@ -67,17 +70,30 @@ public class LexicalAnalyzer {
 
     private String result;
     private String rawString;
+    private String preProcessedString;
     public LexicalAnalyzer(String rawString) {
         this.rawString = rawString;
         analyze();
     }
 
+    public String getPreProcessedString() {
+        return preProcessedString;
+    }
+
+    public String getKey2CodeStr() {
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, Integer> entry : key2Code.entrySet()) {
+            builder.append(entry.getKey()).append(" -> ").append(entry.getValue()).append("\n");
+        }
+        return builder.toString().trim();
+    }
     public String getResult() {
-        return result;
+        return result.trim();
     }
     private void analyze() {
         assert rawString != null;
-        String preProcessedString = preProcess(rawString);
+        // 预处理
+        preProcessedString = preProcess(rawString);
         Matcher matcher = Pattern.compile(keywordsRegex + "|" + symbolRegex + "|" + IDRegex + "|" + NUMRegex).matcher(preProcessedString);
         List<String> identified = new LinkedList<>();
         while (matcher.find()) {

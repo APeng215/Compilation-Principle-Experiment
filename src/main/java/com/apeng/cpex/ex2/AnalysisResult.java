@@ -24,6 +24,6 @@ public class AnalysisResult {
         for (int i = 0; i < size; i++) {
             builder.append(String.format("%-10s%-10s%10s   %-10s\n", i, stacks.get(i), inputs.get(i), usedFormulas.get(i)));
         }
-        return builder.toString();
+        return builder.toString().trim();
     }
 }

@@ -4,13 +4,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LLAnalyzer {
-    private static String startSymbol;//开始符
-    private static Set<String> terSymbolSet; // 终结符
-    private static Set<String> nonTerSymbolSet; // 非终结符
-    private static final HashMap<String, Set<String>> formulaSetMap = new HashMap<>(); //产生式
-    private static final HashMap<String, Set<String>> firstSetMap = new HashMap<>();// FIRST集
-    private static final HashMap<String, Set<String>> followSetMap = new HashMap<>();// FOLLOW集
-    private static final HashMap<String, HashMap<String, ArrayList<String>>> analyzingTable = new HashMap<>();
+    private String startSymbol;//开始符
+    private Set<String> terSymbolSet; // 终结符
+    private Set<String> nonTerSymbolSet; // 非终结符
+    private final HashMap<String, Set<String>> formulaSetMap = new HashMap<>(); //产生式
+    private final HashMap<String, Set<String>> firstSetMap = new HashMap<>();// FIRST集
+    private final HashMap<String, Set<String>> followSetMap = new HashMap<>();// FOLLOW集
+    private final HashMap<String, HashMap<String, ArrayList<String>>> analyzingTable = new HashMap<>();
     private String sentence;
     private final String content;
     private final AnalysisResult analysisResult = new AnalysisResult();
@@ -19,6 +19,24 @@ public class LLAnalyzer {
     public AnalysisResult getAnalysisResult() {
         return analysisResult;
     }
+
+    public String getFirstSetsStr() {
+        StringBuilder builder = new StringBuilder();
+        firstSetMap.forEach((left, rights) ->{
+            builder.append(left).append(": ");
+            builder.append(rights).append("\n");
+        });
+        return builder.toString().trim();
+    }
+    public String getFollowSetsStr() {
+        StringBuilder builder = new StringBuilder();
+        followSetMap.forEach((left, rights) ->{
+            builder.append(left).append(": ");
+            builder.append(rights).append("\n");
+        });
+        return builder.toString().trim();
+    }
+
     public String getPlaneFirstSets() {
         StringBuilder builder = new StringBuilder().append("FIRST SETS:\n");
         for (Map.Entry<String, Set<String>> entry : firstSetMap.entrySet()) {

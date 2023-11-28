@@ -94,19 +94,21 @@ public class LexicalAnalyzer {
         assert rawString != null;
         // 预处理
         preProcessedString = preProcess(rawString);
+        // 统一全部识别出来存入 identified
         Matcher matcher = Pattern.compile(keywordsRegex + "|" + symbolRegex + "|" + IDRegex + "|" + NUMRegex).matcher(preProcessedString);
         List<String> identified = new LinkedList<>();
         while (matcher.find()) {
             identified.add(matcher.group());
         }
         StringBuilder builder = new StringBuilder();
+        // 遍历 identified，分类之
         for (String str : identified) {
             if (isKeywords(str) || isSymbol(str)) {
-                builder.append(String.format("< %s : %d >\n", str, key2Code.get(str)));
+                builder.append(String.format("( %d : %s )\n", key2Code.get(str), str));
             } else if (isNUM(str)) {
-                builder.append(String.format("< %s : %d >\n", str, key2Code.get("NUM")));
+                builder.append(String.format("( %d : %s )\n", key2Code.get("NUM"), str));
             } else {
-                builder.append(String.format("< %s : %d >\n", str, key2Code.get("ID")));
+                builder.append(String.format("( %d : %s )\n", key2Code.get("ID"), str));
             }
         }
         result = builder.toString();

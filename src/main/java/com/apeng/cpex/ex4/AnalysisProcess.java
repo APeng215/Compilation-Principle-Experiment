@@ -22,18 +22,12 @@ public class AnalysisProcess {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < stepNum; i++) {
-            if (i != stepNum - 1) {
+                builder.append("Step ").append(i + 1).append(" ↓\n");
                 builder.append("StateStack: ").append(stateStack.get(i)).append("\n");
                 builder.append("SymbolStack: ").append(symbolStack.get(i)).append("\n");
                 builder.append("UnresolvedSentence: ").append(unresolvedSentence.get(i)).append("\n");
                 builder.append("Action: ").append(actions.get(i)).append("\n").append("\n");
-            } else {
-                builder.append("StateStack: ").append(stateStack.get(i)).append("\n");
-                builder.append("SymbolStack: ").append(symbolStack.get(i)).append("\n");
-                builder.append("UnresolvedSentence: ").append(unresolvedSentence.get(i)).append("\n");
-                builder.append("Action: ").append(actions.get(i)).append("\n");
-            }
         }
-        return builder.toString();
+        return builder.toString().trim();
     }
 }

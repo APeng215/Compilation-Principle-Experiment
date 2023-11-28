@@ -11,6 +11,24 @@ public class LLAnalyzer {
     private final HashMap<String, Set<String>> firstSetMap = new HashMap<>();// FIRST集
     private final HashMap<String, Set<String>> followSetMap = new HashMap<>();// FOLLOW集
     private final HashMap<String, HashMap<String, ArrayList<String>>> analyzingTable = new HashMap<>();
+    public String getAnalyzingTableStr() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("终结符\t").append("预测(非终结符 -> 产生式)\t\n");
+        for (Map.Entry<String, HashMap<String, ArrayList<String>>> entry : analyzingTable.entrySet()) {
+            String nonTerSymbol = entry.getKey();
+            builder.append(nonTerSymbol).append("\t\t");
+            for (Map.Entry<String, ArrayList<String>> terAndCellPair : entry.getValue().entrySet()) {
+                String terSymbol = terAndCellPair.getKey();
+                if (!terAndCellPair.getValue().isEmpty()) {
+                    String cell = terAndCellPair.getValue().get(0);
+                    builder.append(terSymbol).append(" -> ").append(cell).append("\t\t");
+                }
+            }
+            builder.append("\n");
+        }
+
+        return builder.toString().trim();
+    }
     private String sentence;
     private final String content;
     private final AnalysisResult analysisResult = new AnalysisResult();

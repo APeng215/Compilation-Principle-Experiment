@@ -9,8 +9,8 @@ public class Main {
         LLAnalyzer analyzer = new LLAnalyzer(content);
         System.out.println(analyzer.getFirstSetsStr() + "\n");
         System.out.println(analyzer.getFollowSetsStr());
-        AnalysisResult analysisResult = analyzer.getAnalysisResult();
-        System.out.println(analysisResult);
+        System.out.println(analyzer.getAnalyzingTableStr());
+        System.out.println(analyzer.getAnalysisResult());
     }
 
 }

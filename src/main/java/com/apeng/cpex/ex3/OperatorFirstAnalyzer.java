@@ -2,6 +2,7 @@ package com.apeng.cpex.ex3;
 
 import com.apeng.cpex.util.Pair;
 
+import javax.xml.stream.events.EntityReference;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,11 @@ public class OperatorFirstAnalyzer {
     private boolean sentenceCorrect = true;
     public OperatorFirstAnalyzer(String content) throws Exception {
         this.content = content;
+        generateDataStructure(content);
+        initFirstSetsAndLastSets();
+        generateFirstvtSets();
+        generateLastvtSets();
+        generatePriorityTable();
         analyze();
     }
     public boolean isSentenceCorrect() {
@@ -71,14 +77,38 @@ public class OperatorFirstAnalyzer {
     public String getFirstvtSetStr() {
         StringBuilder builder = new StringBuilder();
         for (Map.Entry<String, List<String>> entry : firstvtSets.entrySet()) {
-            builder.append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+            builder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
         return builder.toString().trim();
+    }
+    // Return null if no formula matches
+    public String checkFormulaMatched(String rightPart) {
+        // Create Regex
+        StringBuilder nonTerSymbolRegexBuilder = new StringBuilder();
+        for (int i = 0; i < nonTerSymbolList.size(); i++) {
+            if (i != nonTerSymbolList.size() - 1) {
+                nonTerSymbolRegexBuilder.append(nonTerSymbolList.get(i)).append("|");
+            } else {
+                nonTerSymbolRegexBuilder.append(nonTerSymbolList.get(i));
+            }
+        }
+        String nonTerSymbolRegex = nonTerSymbolRegexBuilder.toString();
+
+        for (Map.Entry<String, Set<String>> formula : formulaSetMap.entrySet()) {
+            String left = formula.getKey();
+            for (String rights : formula.getValue()) {
+                String processedRights = rights.replaceAll(nonTerSymbolRegex, "N");
+                if (processedRights.equals(rightPart)) {
+                    return left + "->" + rights;
+                }
+            }
+        }
+        return null;
     }
     public String getLastvtSetStr() {
         StringBuilder builder = new StringBuilder();
         for (Map.Entry<String, List<String>> entry : lastvtSets.entrySet()) {
-            builder.append(entry.getKey()).append(" = ").append(entry.getValue()).append("\n");
+            builder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
         return builder.toString().trim();
     }
@@ -91,12 +121,6 @@ public class OperatorFirstAnalyzer {
     }
 
     private void analyze() throws Exception {
-        generateDataStructure(content);
-        initFirstSetsAndLastSets();
-        generateFirstvtSets();
-        generateLastvtSets();
-        generatePriorityTable();
-
         String temp = sentence;
         sentence = sentence.replaceAll("\\d+", "i");
         int k = 1;
@@ -113,10 +137,13 @@ public class OperatorFirstAnalyzer {
         S.set(k, "#");
 
         StringBuilder builder = new StringBuilder();
+        builder.append(String.format("%-14s", "分析栈"));
+        builder.append(String.format("%20s", "待分析栈"));
+        builder.append("\t所用表达式\n");
+        builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
+        builder.append(String.format("%20s\n", sentence.substring(sentenceIndex)));
         do {
-            // Print
-            builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
-            builder.append(String.format("%20s\n", sentence.substring(sentenceIndex)));
+
             a = String.valueOf(sentence.charAt(sentenceIndex++));
             // j 为已分析栈中位置最靠后的终结符位置
             if (terSymbolList.contains(S.get(k))) {
@@ -126,6 +153,9 @@ public class OperatorFirstAnalyzer {
             }
             // 已分析栈终结符优先级更大，规约
             while (priorityTable.get(S.get(j), a).equals(">")) {
+                // Print
+                builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
+                builder.append(String.format("%20s", sentence.substring(sentenceIndex)));
                 do {
                     // Q 为记忆的分析栈中的最后终结符
                     Q = S.get(j);
@@ -138,6 +168,17 @@ public class OperatorFirstAnalyzer {
                         j = j - 2;
                     }
                 } while (!priorityTable.get(S.get(j), Q).equals("<"));
+                // 规约过程
+                String subStr2Reduce = S.subList(j + 1, k + 1).stream().reduce((result, element)-> result + element).get();
+                String usedFormula = checkFormulaMatched(subStr2Reduce);
+                if (usedFormula == null) {
+                    builder.append("\nSentence incorrect: Lack of formula N->").append(subStr2Reduce);
+                    analysisResult = builder.toString().trim();
+                    this.sentenceCorrect = false;
+                    return;
+                } else {
+                    builder.append("\t").append(usedFormula).append("\n");
+                }
                 for (int i = j + 1; i < k + 1; i++) {
                     S.set(i, "");
                 }
@@ -153,6 +194,7 @@ public class OperatorFirstAnalyzer {
         } while (!a.equals("#"));
         builder.append(String.format("%-20s", S.stream().limit(k + 1).reduce((result, element) -> result + element).get()));
         builder.append(String.format("%20s\n", sentenceIndex == sentence.length() ? "" : sentence.substring(sentenceIndex)));
+        builder.append("Sentence correct!");
         sentence = temp;
         analysisResult = builder.toString().trim();
     }

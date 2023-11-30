@@ -38,3 +38,5 @@ build/
 ### Mac OS ###
 .DS_Store
 /.idea/encodings.xml
+
+src/main/java/com/apeng/cpex/test/

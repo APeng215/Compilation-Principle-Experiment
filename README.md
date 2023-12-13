@@ -10,16 +10,15 @@
 
 ## 使用方法
 
+### 方法1：直接使用
+
 1. 下载本仓库到本地
 2. 每个实验都对应有一个`ex`包，比如实验1对应`ex1`包
 3. 进入对应实验的`ex`包，运行`Main#main`方法即可
 
-## API式使用
+### 方法2：API式使用
 
-如果你想像API调用一样使用本仓库，可以复制每个实验`ex`中的`Analyzer`类到你自己的项目中使用，`Analyzer`类的使用方法请直接参考`Main#main`中的调用。
-
-> [!NOTE]
-> 有些`Analyzer`有属于自己的辅助类，请一同将其复制到你的项目中
+从 [Release](https://github.com/APeng215/Compilation-Principle-Experiment/releases/latest) 中下载 Jar 文件，[导入](https://www.baidu.com/s?ie=UTF-8&wd=%E5%A6%82%E4%BD%95%E5%AF%BC%E5%85%A5jar%E6%96%87%E4%BB%B6%EF%BC%9F)至自己的项目中使用即可
 
 ## 画廊
 ![实验3](README_resources/ex3.png)
